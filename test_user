@@ -1,0 +1,59 @@
+ import 'package:flutter_test/flutter_test.dart';
+
+class TestUser {
+  Future<void> tapButtonByKey({
+    required Key key,
+    required WidgetTester tester,
+  }) async {
+    await tester.tap(find.byKey(key));
+    await tester.pumpAndSettle();
+  }
+
+  Future<void> tapButtonByLabel({
+    required String label,
+    required WidgetTester tester,
+  }) async {
+    await tester.tap(find.text(label));
+    await tester.pumpAndSettle();
+  }
+
+  Future<void> writeToInputField({
+    required Key key,
+    required WidgetTester tester,
+    required String text,
+  }) async {
+    await tester.tap(find.byKey(key));
+    await tester.pumpAndSettle();
+
+    await tester.enterText(
+      find.byKey(key),
+      text,
+    );
+  }
+
+  Future<void> logIn({
+    required String username,
+    required Key usernameInputKey,
+    required String password,
+    required Key passwordInputKey,
+    required WidgetTester tester,
+    required Key loginButtonKey,
+  }) async {
+    await writeToInputField(
+      key: usernameInputKey,
+      tester: tester,
+      text: username,
+    );
+
+    await writeToInputField(
+      key: passwordInputKey,
+      tester: tester,
+      text: password,
+    );
+
+    await tapButtonByKey(
+      key: loginButtonKey,
+      tester: tester,
+    );
+  }
+}
